@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../presentation/theme_manager.dart';
+
 class MyApp extends StatefulWidget {
   // const MyApp({Key? key}) : super(key: key); // default constructor
   MyApp._internal(); //private named constructor
@@ -15,6 +17,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      theme: getApplicationTheme(),
+    );
   }
 }
