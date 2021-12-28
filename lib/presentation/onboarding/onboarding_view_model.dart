@@ -1,45 +1,102 @@
+import 'dart:async';
+
+import '../../domain/slider_object_model.dart';
 import '../base/base_view_model.dart';
+import '../resources/assets_manager.dart';
+import '../resources/strings_manager.dart';
 
 class OnBoardingViewModel extends BaseViewModel
     with OnBoardingViewModelInputs, OnBoardingViewModelOutputs {
-  //* stream controllers
+  // stream controllers
+  final StreamController _streamController =
+      StreamController<SliderViewObject>();
 
-  // inputs
+  late final List<SliderObject> _list;
+  int _currentIndex = 0;
+
+  //* Inputs
   @override
   void start() {
-    // TODO: implement start
+    _list = _getSliderData();
+    // send this slider data to our view
+    _postDataToView();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    _streamController.close();
   }
 
   @override
-  void goNext() {
-    // TODO: implement goNext
+  int goNext() {
+    _currentIndex++; // +1
+    if (_currentIndex >= _list.length) {
+      _currentIndex = 0; // infinite loop to go to first item inside the slider
+    }
+    return _currentIndex;
   }
 
   @override
-  void goPrevious() {
-    // TODO: implement goPrevious
+  int goPrevious() {
+    _currentIndex--; // -1
+    if (_currentIndex < 0) {
+      _currentIndex =
+          _list.length - 1; // infinite loop to go to the length of slider list
+    }
+    return _currentIndex;
   }
 
   @override
   void onPageChange(int index) {
-    // TODO: implement onPageChange
+    _currentIndex = index;
+    _postDataToView();
+  }
+
+  @override
+  Sink get inputSliderViewObject => _streamController.sink;
+
+  //* Outputs
+  @override
+  Stream<SliderViewObject> get outputSliderViewObject =>
+      _streamController.stream.map((sliderViewObject) => sliderViewObject);
+
+  //* Private Functions
+  List<SliderObject> _getSliderData() => [
+        SliderObject(AppStrings.onBoardingSubTitle1,
+            AppStrings.onBoardingSubTitle1, ImageAssets.onboardingLogo1),
+        SliderObject(AppStrings.onBoardingSubTitle2,
+            AppStrings.onBoardingSubTitle2, ImageAssets.onboardingLogo2),
+        SliderObject(AppStrings.onBoardingSubTitle3,
+            AppStrings.onBoardingSubTitle3, ImageAssets.onboardingLogo3),
+        SliderObject(AppStrings.onBoardingSubTitle4,
+            AppStrings.onBoardingSubTitle4, ImageAssets.onboardingLogo4)
+      ];
+
+  _postDataToView() {
+    inputSliderViewObject.add(
+        SliderViewObject(_list[_currentIndex], _list.length, _currentIndex));
   }
 }
 
 // inputs mean the orders that our view model will receive from our view.
 abstract class OnBoardingViewModelInputs {
-  void goNext(); // when user clicks on right arrow or swipe left-right.
-  void goPrevious(); // when user clicks on left arrow or swipe right-left.
-
+  int goNext(); // when user clicks on right arrow or swipe left-right.
+  int goPrevious(); // when user clicks on left arrow or swipe right-left.
   void onPageChange(int index);
+
+  Sink
+      get inputSliderViewObject; //this is the way we add data to the stream -> stream input
 }
 
 // output mean data or results that will be sent from our view model to our view.
 abstract class OnBoardingViewModelOutputs {
-  // TODO: will be implemented it later
+  Stream<SliderViewObject> get outputSliderViewObject;
+}
+
+class SliderViewObject {
+  SliderObject sliderObject;
+  int numOfSlides;
+  int currentIndex;
+
+  SliderViewObject(this.sliderObject, this.numOfSlides, this.currentIndex);
 }
