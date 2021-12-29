@@ -5,7 +5,7 @@
 
 // REQUEST
 
-// POST - http://juniorramosdev.mocklab.io/customers/login
+// POST - [API_BASE_URL]/customers/login
 
 {
     "email": "email@email.com",
