@@ -19,21 +19,3 @@ abstract class AppServiceClient {
     @Field('device_type') String deviceType,
   );
 }
-
-
-
-
-
-// class URLInterceptor extends Interceptor {
-//   @override
-//   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-//     handler.next(options.copyWith(baseUrl: Constants.baseUrl));
-//   }
-// }
-
-// AppServiceClient create() {
-//   final dio = Dio(BaseOptions(contentType: 'application/json'));
-//   dio.interceptors.add(URLInterceptor());
-
-//   return AppServiceClient(dio);
-// }
