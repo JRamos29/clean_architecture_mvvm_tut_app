@@ -1,9 +1,9 @@
-import '../resources/strings_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
+import '../resources/routes_manager.dart';
+import '../resources/strings_manager.dart';
 import '../resources/values_manager.dart';
 import 'login_view_model.dart';
 
@@ -16,7 +16,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   LoginViewModel _viewModel =
-  LoginViewModel(null); // todo pass here login useCase
+      LoginViewModel(null); // todo pass here login useCase
 
   TextEditingController _userNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -38,23 +38,24 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _getContentWidget();
   }
 
   Widget _getContentWidget() {
     return Scaffold(
+      backgroundColor: ColorManager.white,
       body: Container(
         padding: EdgeInsets.only(top: AppPadding.p100),
-        color: ColorManager.white,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                SvgPicture.asset(ImageAssets.loginIc),
+                Image(image: AssetImage(ImageAssets.splashLogo)),
                 SizedBox(height: AppSize.s28),
-                Padding(padding: EdgeInsets.only(
-                    left: AppPadding.p28, right: AppPadding.p28),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: AppPadding.p28, right: AppPadding.p28),
                   child: StreamBuilder<bool>(
                     stream: _viewModel.outputIsUserNameValid,
                     builder: (context, snapshot) {
@@ -66,14 +67,15 @@ class _LoginViewState extends State<LoginView> {
                             labelText: AppStrings.username,
                             errorText: (snapshot.data ?? true)
                                 ? null
-                                : AppStrings.usernameError
-                        ),
+                                : AppStrings.usernameError),
                       );
                     },
-                  ),),
+                  ),
+                ),
                 SizedBox(height: AppSize.s28),
-                Padding(padding: EdgeInsets.only(
-                    left: AppPadding.p28, right: AppPadding.p28),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: AppPadding.p28, right: AppPadding.p28),
                   child: StreamBuilder<bool>(
                     stream: _viewModel.outputIsPasswordValid,
                     builder: (context, snapshot) {
@@ -85,22 +87,59 @@ class _LoginViewState extends State<LoginView> {
                             labelText: AppStrings.password,
                             errorText: (snapshot.data ?? true)
                                 ? null
-                                : AppStrings.passwordError
-                        ),
+                                : AppStrings.passwordError),
                       );
                     },
-                  ),),
-                SizedBox(height: AppSize.s28),
-                Padding(padding: EdgeInsets.only(
-                    left: AppPadding.p28, right: AppPadding.p28),
-                    child: StreamBuilder(
-                      stream: // TODO: add me later,
-                      , builder: (context, snapshot) {
-                      return ElevatedButton(
-                          onPressed: () {}, child: Text(AppStrings.login));
-                    },
-                    ),
+                  ),
                 ),
+                SizedBox(height: AppSize.s28),
+                Padding(
+                    padding: EdgeInsets.only(
+                        left: AppPadding.p28, right: AppPadding.p28),
+                    child: StreamBuilder<bool>(
+                      stream: _viewModel.outputIsAllInputsValid,
+                      builder: (context, snapshot) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: AppSize.s40,
+                          child: ElevatedButton(
+                              onPressed: (snapshot.data ?? false)
+                                  ? () {
+                                      _viewModel.login();
+                                    }
+                                  : null,
+                              child: Text(AppStrings.login)),
+                        );
+                      },
+                    )),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: AppPadding.p8,
+                    left: AppPadding.p28,
+                    right: AppPadding.p28,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, Routes.forgotPasswordRoute);
+                        },
+                        child: Text(AppStrings.forgetPassword,
+                            style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, Routes.registerRoute);
+                        },
+                        child: Text(AppStrings.registerText,
+                            style: Theme.of(context).textTheme.subtitle2),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),
