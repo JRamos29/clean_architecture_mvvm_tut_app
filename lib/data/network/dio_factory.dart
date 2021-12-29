@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../app/constants.dart';
 
@@ -26,6 +28,19 @@ class DioFactory {
         connectTimeout: _timeOut,
         receiveTimeout: _timeOut,
         headers: headers);
+
+    if (kReleaseMode) {
+      print('No logs on release mode.');
+    } else {
+      dio.interceptors.add(PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90));
+    }
 
     return dio;
   }
