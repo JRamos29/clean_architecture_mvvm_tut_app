@@ -12,7 +12,12 @@ abstract class AppServiceClient {
   factory AppServiceClient(Dio dio) => _AppServiceClient(dio);
 
   @POST('/customers/login')
-  Future<AuthenticationResponse> login();
+  Future<AuthenticationResponse> login(
+    @Field('email') String email,
+    @Field('password') String password,
+    @Field('imei') String imei,
+    @Field('device_type') String deviceType,
+  );
 }
 
 
