@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../domain/authetication_model.dart';
+import '../../domain/models/authetication_model.dart';
 import '../../domain/repositories/repository.dart';
 import '../datasource/remote_datasource.dart';
 import '../mapper/mapper.dart';

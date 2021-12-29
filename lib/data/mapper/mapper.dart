@@ -2,9 +2,9 @@
 
 import 'package:clean_architecture_mvvm_app/app/extensions.dart';
 import 'package:clean_architecture_mvvm_app/data/responses/responses.dart';
-import 'package:clean_architecture_mvvm_app/domain/authetication_model.dart';
-import 'package:clean_architecture_mvvm_app/domain/contacts_model.dart';
-import 'package:clean_architecture_mvvm_app/domain/customer_model.dart';
+import 'package:clean_architecture_mvvm_app/domain/models/authetication_model.dart';
+import 'package:clean_architecture_mvvm_app/domain/models/contacts_model.dart';
+import 'package:clean_architecture_mvvm_app/domain/models/customer_model.dart';
 
 const EMPTY = '';
 const ZERO = 0;
