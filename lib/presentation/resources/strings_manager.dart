@@ -30,4 +30,5 @@ class AppStrings {
 
   // State Renderer strings
   static const String loading = "Loading...";
+  static const String retry_again = "Retry Again";
 }
