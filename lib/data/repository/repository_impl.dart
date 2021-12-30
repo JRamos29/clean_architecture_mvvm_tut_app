@@ -20,24 +20,25 @@ class RepositoryImpl extends Repository {
       LoginRequest loginRequest) async {
     if (await _networkInfo.isConnected) {
       try {
-        //it's safe to call API
+        // its safe to call the API
         final response = await _remoteDataSource.login(loginRequest);
 
-        if (response.status == ApiInternalStatus.SUCCESS) {
+        if (response.status == ApiInternalStatus.SUCCESS) // success
+        {
           // return data (success)
           // return right
           return Right(response.toDomain());
         } else {
-          // Return business logic error
+          // return biz logic error
           // return left
           return Left(Failure(response.status ?? ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
       } catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
+        return (Left(ErrorHandler.handle(error).failure));
       }
     } else {
-      // return conection error
+      // return connection error
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }

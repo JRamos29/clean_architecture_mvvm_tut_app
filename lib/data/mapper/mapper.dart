@@ -6,7 +6,7 @@ import 'package:clean_architecture_mvvm_app/domain/models/authetication_model.da
 import 'package:clean_architecture_mvvm_app/domain/models/contacts_model.dart';
 import 'package:clean_architecture_mvvm_app/domain/models/customer_model.dart';
 
-const EMPTY = '';
+const EMPTY = "";
 const ZERO = 0;
 
 extension CustomerResponseMapper on CustomerResponse? {
@@ -14,14 +14,14 @@ extension CustomerResponseMapper on CustomerResponse? {
     return Customer(
         this?.id?.orEmpty() ?? EMPTY,
         this?.name?.orEmpty() ?? EMPTY,
-        this?.numberOfNotificationsame?.orZero() ?? ZERO);
+        this?.numOfNotifications?.orZero() ?? ZERO);
   }
 }
 
 extension ContactsResponseMapper on ContactsResponse? {
   Contacts toDomain() {
-    return Contacts(this?.phone?.orEmpty() ?? EMPTY,
-        this?.link?.orEmpty() ?? EMPTY, this?.email?.orEmpty() ?? EMPTY);
+    return Contacts(this?.email?.orEmpty() ?? EMPTY,
+        this?.phone?.orEmpty() ?? EMPTY, this?.link?.orEmpty() ?? EMPTY);
   }
 }
 

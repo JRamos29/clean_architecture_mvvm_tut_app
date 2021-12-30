@@ -1,5 +1,7 @@
 # clean_architecture_mvvm_app
 
+# RUN: flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+
 A new Flutter project.
 
 ## Getting Started

@@ -18,15 +18,13 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     Dio dio = Dio();
-
     int _timeOut = 60 * 1000; // 1 min
     String language = await _appPreferences.getAppLanguage();
-
     Map<String, String> headers = {
       CONTENT_TYPE: APPLICATION_JSON,
       ACCEPT: APPLICATION_JSON,
       AUTHORIZATION: Constants.token,
-      DEFAULT_LANGUAGE: language,
+      DEFAULT_LANGUAGE: language
     };
 
     dio.options = BaseOptions(
@@ -36,16 +34,10 @@ class DioFactory {
         headers: headers);
 
     if (kReleaseMode) {
-      print('No logs on release mode.');
+      print("release mode no logs");
     } else {
       dio.interceptors.add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 90));
+          requestHeader: true, requestBody: true, responseHeader: true));
     }
 
     return dio;

@@ -16,6 +16,6 @@ abstract class AppServiceClient {
     @Field('email') String email,
     @Field('password') String password,
     @Field('imei') String imei,
-    @Field('device_type') String deviceType,
+    @Field('deviceType') String deviceType,
   );
 }
