@@ -31,12 +31,12 @@ class CustomerResponse {
 
 @JsonSerializable()
 class ContactsResponse {
-  @JsonKey(name: "email")
-  String? email;
   @JsonKey(name: "phone")
   String? phone;
   @JsonKey(name: "link")
   String? link;
+  @JsonKey(name: "email")
+  String? email;
 
   ContactsResponse(this.email, this.phone, this.link);
 
