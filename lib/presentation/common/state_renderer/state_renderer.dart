@@ -45,11 +45,11 @@ class StateRenderer extends StatelessWidget {
   Widget _getStateWidget(BuildContext context) {
     switch (stateRendererType) {
       case StateRendererType.POPUP_LOADING_STATE:
-      // TODO: Handle this case.
-        break;
+        return _getPopUpDialog(context, [_getAnimatedImage()]);
       case StateRendererType.POPUP_ERROR_STATE:
-      // TODO: Handle this case.
-        break;
+        return _getPopUpDialog(context, [ _getAnimatedImage(),
+          _getMessage(failure.message),
+          _getRetryButton(AppStrings.ok, context)]);
       case StateRendererType.FULL_SCREEN_LOADING_STATE:
         return _getItemsInColumn([_getAnimatedImage(), _getMessage(message)]);
       case StateRendererType.FULL_SCREEN_ERROR_STATE:
@@ -60,14 +60,44 @@ class StateRenderer extends StatelessWidget {
               _getRetryButton(AppStrings.retry_again, context)
             ]);
       case StateRendererType.CONTENT_SCREEN_STATE:
-      // TODO: Handle this case.
-        break;
+        return Container();
       case StateRendererType.EMPTY_SCREEN_STATE:
-      // TODO: Handle this case.
-        break;
+        return _getItemsInColumn([_getAnimatedImage(), _getMessage(message)]);
       default:
-        Container();
+        return Container();
     }
+  }
+
+  Widget _getPopUpDialog(BuildContext context, List<Widget> children) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s14)
+      ),
+      elevation: AppSize.s1_5,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+            color: ColorManager.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(AppSize.s14),
+            boxShadow: [
+              BoxShadow(color: Colors.black26,
+                  blurRadius: AppSize.s12,
+                  offset: Offset(AppSize.s0, AppSize.s12))
+            ]
+        ),
+        child: _getDialogContent(context, children),
+      ),
+    );
+  }
+
+  Widget _getDialogContent(BuildContext context, List<Widget> children) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: children,
+    );
   }
 
   Widget _getAnimatedImage() {
