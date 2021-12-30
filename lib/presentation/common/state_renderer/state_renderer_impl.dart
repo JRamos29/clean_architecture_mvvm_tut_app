@@ -88,6 +88,7 @@ extension FlowStateExtension on FlowState {
         }
       case ErrorState:
         {
+          dismissDialog(context);
           if (getStateRendererType() == StateRendererType.POPUP_ERROR_STATE) {
             // showing popup dialog
             showPopUp(context, getStateRendererType(), getMessage());
@@ -103,6 +104,7 @@ extension FlowStateExtension on FlowState {
         }
       case ContentState:
         {
+          dismissDialog(context);
           return contentScreenWidget;
         }
       case EmptyState:
@@ -118,6 +120,16 @@ extension FlowStateExtension on FlowState {
         }
     }
   }
+
+  // Handling showing many popup dialogs
+  dismissDialog(BuildContext context) {
+    if (_isThereCurrentDialogShowing(context)) {
+      Navigator.of(context, rootNavigator: true).pop(true);
+    }
+  }
+
+  _isThereCurrentDialogShowing(BuildContext context) =>
+      ModalRoute.of(context)?.isCurrent != true;
 
   showPopUp(BuildContext context, StateRendererType stateRendererType,
       String message) {
