@@ -1,5 +1,6 @@
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../app/di.dart';
 import '../resources/assets_manager.dart';
@@ -29,6 +30,14 @@ class _LoginViewState extends State<LoginView> {
         .addListener(() => _viewModel.setUserName(_userNameController.text));
     _passwordController
         .addListener(() => _viewModel.setPassword(_passwordController.text));
+
+    _viewModel.isUserLoggedInSuccessfullyStreamController.stream
+        .listen((isSuccessLoggedIn) {
+      // navigate to main screen
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed(Routes.mainRoute);
+      });
+    });
   }
 
   @override
