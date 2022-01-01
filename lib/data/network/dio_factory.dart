@@ -28,10 +28,12 @@ class DioFactory {
     };
 
     dio.options = BaseOptions(
-        baseUrl: Constants.baseUrl,
-        connectTimeout: _timeOut,
-        receiveTimeout: _timeOut,
-        headers: headers);
+      baseUrl: Constants.baseUrl,
+      connectTimeout: _timeOut,
+      receiveTimeout: _timeOut,
+      receiveDataWhenStatusError: true,
+      headers: headers,
+    );
 
     if (kReleaseMode) {
       print("release mode no logs");
