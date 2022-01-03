@@ -28,6 +28,11 @@ class AppStrings {
   static const String login = "Login";
   static const String forgetPassword = "Forget password";
   static const String registerText = "Not a member ? Sign up";
+  static const String profilePicture = "Profile picture";
+  static const String photoGalley = "Photo from gallery";
+  static const String photoCamera = "Photo from camera";
+  static const String register = "Register";
+  static const String haveAccount = "Already have an account? Login";
 
   // State Renderer strings
   static const String loading = "Loading...";

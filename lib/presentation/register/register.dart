@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:clean_architecture_mvvm_app/app/di.dart';
 import 'package:clean_architecture_mvvm_app/data/mapper/mapper.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -9,6 +11,8 @@ import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manag
 import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -19,6 +23,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   RegisterViewModel _viewModel = instance<RegisterViewModel>();
+  ImagePicker picker = instance<ImagePicker>();
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _userNameTextEditingController =
@@ -119,7 +124,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 _viewModel
                                     .setCountryCode(country.dialCode ?? EMPTY);
                               },
-                              initialSelection: "+55",
+                              initialSelection: "+33",
                               showCountryOnly: true,
                               showOnlyCountryWhenClosed: true,
                               favorite: ["+966", "+02", "+39"],
@@ -208,7 +213,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       _viewModel.register();
                                     }
                                   : null,
-                              child: Text(AppStrings.login)),
+                              child: Text(AppStrings.register)),
                         );
                       },
                     )),
@@ -218,31 +223,87 @@ class _RegisterViewState extends State<RegisterView> {
                     left: AppPadding.p28,
                     right: AppPadding.p28,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.forgotPasswordRoute);
-                        },
-                        child: Text(AppStrings.forgetPassword,
-                            style: Theme.of(context).textTheme.subtitle2),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.registerRoute);
-                        },
-                        child: Text(AppStrings.registerText,
-                            style: Theme.of(context).textTheme.subtitle2),
-                      )
-                    ],
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(AppStrings.haveAccount,
+                        style: Theme.of(context).textTheme.subtitle2),
                   ),
                 )
               ],
             ),
           ),
         ));
+  }
+
+  Widget _getMediaWidget() {
+    return Padding(
+      padding: EdgeInsets.only(left: AppPadding.p8, right: AppPadding.p8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(child: Text(AppStrings.profilePicture)),
+          Flexible(
+              child: StreamBuilder<File?>(
+            stream: _viewModel.outputProfilePicture,
+            builder: (context, snapshot) {
+              return _imagePickedByUser(snapshot.data);
+            },
+          )),
+          Flexible(child: SvgPicture.asset(ImageAssets.photoCameraIc)),
+        ],
+      ),
+    );
+  }
+
+  Widget _imagePickedByUser(File? image) {
+    if (image != null && image.path.isNotEmpty) {
+      return Image.file(image);
+    } else {
+      return Container();
+    }
+  }
+
+  _showPicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  trailing: Icon(Icons.arrow_forward),
+                  leading: Icon(Icons.camera),
+                  title: Text(AppStrings.photoGalley),
+                  onTap: () {
+                    _imageFormGallery();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  trailing: Icon(Icons.arrow_forward),
+                  leading: Icon(Icons.camera_alt_rounded),
+                  title: Text(AppStrings.photoCamera),
+                  onTap: () {
+                    _imageFormCamera();
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  _imageFormGallery() async {
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    _viewModel.setProfilePicture(File(image?.path ?? ""));
+  }
+
+  _imageFormCamera() async {
+    var image = await picker.pickImage(source: ImageSource.camera);
+    _viewModel.setProfilePicture(File(image?.path ?? ""));
   }
 
   @override

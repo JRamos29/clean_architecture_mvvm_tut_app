@@ -15,8 +15,9 @@ class ImageAssets {
   static const String leftArrowIc = "$IMAGE_PATH/left_arrow_ic.svg";
   static const String rightArrowIc = "$IMAGE_PATH/right_arrow_ic.svg";
 
-  // Images for Login Screen
+  // Images for Login / Register Screen
   static const String loginIc = "$IMAGE_PATH/login_ic.svg";
+  static const String photoCameraIc = "$IMAGE_PATH/photo_camera_ic.svg";
 }
 
 class JsonAssets {
