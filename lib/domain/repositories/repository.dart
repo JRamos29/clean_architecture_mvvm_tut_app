@@ -1,3 +1,4 @@
+import 'package:clean_architecture_mvvm_app/domain/models/home_model.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../data/network/failure.dart';
@@ -9,4 +10,5 @@ abstract class Repository {
   Future<Either<Failure, String>> forgotPassword(String email);
   Future<Either<Failure, Authentication>> register(
       RegisterRequest registerRequest);
+  Future<Either<Failure, HomeObject>> getHome();
 }
