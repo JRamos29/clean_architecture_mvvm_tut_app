@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:clean_architecture_mvvm_app/app/functions.dart';
 import 'package:clean_architecture_mvvm_app/domain/usecases/register_usecase.dart';
-import 'package:clean_architecture_mvvm_app/presentation/base/base_view_model.dart';
+import 'package:clean_architecture_mvvm_app/presentation/base/base_viewmodel.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/freezed_data_classes.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';

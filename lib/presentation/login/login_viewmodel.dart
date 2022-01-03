@@ -4,7 +4,7 @@ import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/s
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
 
 import '../../domain/usecases/login_usecase.dart';
-import '../base/base_view_model.dart';
+import '../base/base_viewmodel.dart';
 import '../common/freezed_data_classes.dart';
 
 class LoginViewModel extends BaseViewModel

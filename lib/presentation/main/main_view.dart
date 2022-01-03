@@ -4,7 +4,7 @@ import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manag
 import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
+import 'home/home_page.dart';
 import 'notifications_page.dart';
 import 'settings_page.dart';
 

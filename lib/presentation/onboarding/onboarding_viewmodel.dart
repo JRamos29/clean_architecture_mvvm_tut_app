@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import '../../domain/models/slider_object_model.dart';
-import '../base/base_view_model.dart';
+import '../base/base_viewmodel.dart';
 import '../resources/assets_manager.dart';
 import '../resources/strings_manager.dart';
 

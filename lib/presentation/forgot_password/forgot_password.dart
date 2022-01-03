@@ -6,7 +6,7 @@ import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manag
 import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 
-import 'forgot_password_view_model.dart';
+import 'forgot_password_viewmodel.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);
