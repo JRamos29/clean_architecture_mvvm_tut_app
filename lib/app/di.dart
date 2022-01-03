@@ -1,5 +1,7 @@
 import 'package:clean_architecture_mvvm_app/domain/usecases/forgot_password_usecase.dart';
+import 'package:clean_architecture_mvvm_app/domain/usecases/register_usecase.dart';
 import 'package:clean_architecture_mvvm_app/presentation/forgot_password/forgot_password_view_model.dart';
+import 'package:clean_architecture_mvvm_app/presentation/register/register_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,5 +61,14 @@ initForgotPasswordModule() {
         () => ForgotPasswordUseCase(instance()));
     instance.registerFactory<ForgotPasswordViewModel>(
         () => ForgotPasswordViewModel(instance()));
+  }
+}
+
+initRegisterModule() {
+  if (!GetIt.I.isRegistered<RegisterUseCase>()) {
+    instance
+        .registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
+    instance.registerFactory<RegisterViewModel>(
+        () => RegisterViewModel(instance()));
   }
 }

@@ -5,6 +5,8 @@ import 'package:clean_architecture_mvvm_app/app/functions.dart';
 import 'package:clean_architecture_mvvm_app/domain/usecases/register_usecase.dart';
 import 'package:clean_architecture_mvvm_app/presentation/base/base_view_model.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/freezed_data_classes.dart';
+import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer.dart';
+import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
 
 class RegisterViewModel extends BaseViewModel
     with RegisterViewModelInput, RegisterViewModelOutput {
@@ -34,7 +36,33 @@ class RegisterViewModel extends BaseViewModel
   //  -- inputs
   @override
   void start() {
-    // TODO: implement start
+    // view tells state renderer, please show the content of the screen
+    inputState.add(ContentState());
+  }
+
+  @override
+  register() async {
+    inputState.add(
+        LoadingState(stateRendererType: StateRendererType.POPUP_LOADING_STATE));
+    (await _registerUseCase.execute(RegisterUseCaseInput(
+      registerViewObject.mobileNumber,
+      registerViewObject.countryMobileCode,
+      registerViewObject.userName,
+      registerViewObject.email,
+      registerViewObject.password,
+      registerViewObject.profilePicture,
+    )))
+        .fold(
+            (failure) => {
+                  // left -> failure
+                  inputState.add(ErrorState(
+                      StateRendererType.POPUP_ERROR_STATE, failure.message))
+                }, (data) {
+      // right -> success (data)
+      inputState.add(ContentState());
+
+      // navigate to main screen after the login
+    });
   }
 
   @override
@@ -187,12 +215,6 @@ class RegisterViewModel extends BaseViewModel
   @override
   Stream<File> get outputIsProfilePictureValid =>
       _profilePictureStreamController.stream.map((file) => file);
-
-  @override
-  register() {
-    // TODO: implement register
-    throw UnimplementedError();
-  }
 
   // -- private methods
   bool _isUserNameValid(String userName) {
