@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clean_architecture_mvvm_app/app/app_prefs.dart';
 import 'package:clean_architecture_mvvm_app/app/di.dart';
 import 'package:clean_architecture_mvvm_app/data/mapper/mapper.dart';
 import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -11,6 +12,7 @@ import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manag
 import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,6 +25,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   RegisterViewModel _viewModel = instance<RegisterViewModel>();
+  AppPreferences _appPreferences = instance<AppPreferences>();
   ImagePicker picker = instance<ImagePicker>();
   final _formKey = GlobalKey<FormState>();
 
@@ -55,6 +58,15 @@ class _RegisterViewState extends State<RegisterView> {
 
     _mobileNumberTextEditingController.addListener(() {
       _viewModel.setMobileNumber(_mobileNumberTextEditingController.text);
+    });
+
+    _viewModel.isUserLoggedInSuccessfullyStreamController.stream
+        .listen((isSuccessLoggedIn) {
+      // navigate to main screen
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        _appPreferences.setIsUserLoggedIn();
+        Navigator.of(context).pushReplacementNamed(Routes.mainRoute);
+      });
     });
   }
 
@@ -125,11 +137,11 @@ class _RegisterViewState extends State<RegisterView> {
                                 _viewModel
                                     .setCountryCode(country.dialCode ?? EMPTY);
                               },
-                              initialSelection: "+55",
+                              initialSelection: "+33",
                               showCountryOnly: true,
                               hideMainText: true,
                               showOnlyCountryWhenClosed: true,
-                              favorite: ["+1", "+02", "+39"],
+                              favorite: ["+966", "+02", "+39"],
                             )),
                         Expanded(
                             flex: 3,
