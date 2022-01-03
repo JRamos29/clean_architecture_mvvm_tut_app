@@ -35,6 +35,7 @@ class AppStrings {
   static const String haveAccount = "Already have an account? Login";
 
   // State Renderer strings
+  static const String success = "Success";
   static const String loading = "Loading...";
   static const String retry_again = "Retry Again";
   static const String ok = "Ok";
@@ -44,5 +45,9 @@ class AppStrings {
   static const String invalidEmail = "Invalid Email";
   static const String resetPassword = "Reset Password";
 
-  static const String success = "Success";
+  // Main Screen Strings
+  static const String home = "Home";
+  static const String notifications = "Notifications";
+  static const String search = "Search";
+  static const String settings = "Settings";
 }
