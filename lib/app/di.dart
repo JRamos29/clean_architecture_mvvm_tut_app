@@ -3,6 +3,7 @@ import 'package:clean_architecture_mvvm_app/domain/usecases/register_usecase.dar
 import 'package:clean_architecture_mvvm_app/presentation/forgot_password/forgot_password_view_model.dart';
 import 'package:clean_architecture_mvvm_app/presentation/register/register_viewmodel.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,5 +71,6 @@ initRegisterModule() {
         .registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
     instance.registerFactory<RegisterViewModel>(
         () => RegisterViewModel(instance()));
+    instance.registerFactory<ImagePicker>(() => ImagePicker());
   }
 }
