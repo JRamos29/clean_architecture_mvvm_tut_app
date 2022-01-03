@@ -107,11 +107,10 @@ class _HomePageState extends State<HomePage> {
                   ))
               .toList(),
           options: CarouselOptions(
-            height: AppSize.s190,
-            autoPlay: true,
-            enableInfiniteScroll: true,
-            enlargeCenterPage: true,
-          ));
+              height: AppSize.s190,
+              autoPlay: true,
+              enableInfiniteScroll: true,
+              enlargeCenterPage: true));
     } else {
       return Container();
     }
@@ -148,8 +147,8 @@ class _HomePageState extends State<HomePage> {
                             child: Image.network(
                               service.image,
                               fit: BoxFit.cover,
-                              width: AppSize.s130,
-                              height: AppSize.s130,
+                              width: AppSize.s100,
+                              height: AppSize.s100,
                             ),
                           ),
                           Padding(
