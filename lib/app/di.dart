@@ -1,3 +1,4 @@
+import 'package:clean_architecture_mvvm_app/data/datasource/local_datasource.dart';
 import 'package:clean_architecture_mvvm_app/domain/usecases/forgot_password_usecase.dart';
 import 'package:clean_architecture_mvvm_app/domain/usecases/home_usecase.dart';
 import 'package:clean_architecture_mvvm_app/domain/usecases/register_usecase.dart';
@@ -17,6 +18,8 @@ import '../data/repository/repository_impl.dart';
 import '../domain/repositories/repository.dart';
 import '../domain/usecases/login_usecase.dart';
 import '../presentation/login/login_viewmodel.dart';
+import 'app_prefs.dart';
+
 import 'app_prefs.dart';
 
 import 'app_prefs.dart';
@@ -48,9 +51,13 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
 
+  // local data source
+  instance.registerLazySingleton<LocalDataSource>(
+      () => LocalDataSourceImplementer());
+
   // repository
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImpl(instance(), instance()));
+      () => RepositoryImpl(instance(), instance(), instance()));
 }
 
 initLoginModule() {
