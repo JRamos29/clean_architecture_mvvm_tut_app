@@ -1,11 +1,12 @@
-import 'package:clean_architecture_mvvm_app/app/di.dart';
-import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/assets_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/color_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../app/di.dart';
+import '../common/state_renderer/state_renderer_impl.dart';
+import '../resources/assets_manager.dart';
+import '../resources/color_manager.dart';
+import '../resources/strings_manager.dart';
+import '../resources/values_manager.dart';
 import 'forgot_password_viewmodel.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -75,11 +76,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailTextEditingController,
                       decoration: InputDecoration(
-                          hintText: AppStrings.emailHint,
-                          labelText: AppStrings.emailHint,
+                          hintText: AppStrings.emailHint.tr(),
+                          labelText: AppStrings.emailHint.tr(),
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : AppStrings.invalidEmail),
+                              : AppStrings.invalidEmail.tr()),
                     );
                   },
                 ),
@@ -93,7 +94,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 child: StreamBuilder<bool>(
                   stream: _viewModel.outputIsAllInputValid,
                   builder: (context, snapshot) {
-                    var resetPassword;
                     return SizedBox(
                       width: double.infinity,
                       height: AppSize.s40,
@@ -101,7 +101,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           onPressed: (snapshot.data ?? false)
                               ? () => _viewModel.forgotPassword()
                               : null,
-                          child: const Text(AppStrings.resetPassword)),
+                          child: const Text(AppStrings.resetPassword).tr()),
                     );
                   },
                 ),

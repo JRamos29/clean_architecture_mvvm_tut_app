@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../app/app_prefs.dart';
+import '../../app/di.dart';
 import '../../domain/models/slider_object_model.dart';
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
@@ -21,31 +24,32 @@ class OnBoardingView extends StatefulWidget {
 class _OnBoardingViewState extends State<OnBoardingView> {
   PageController _pageController = PageController(initialPage: 0);
   OnBoardingViewModel _viewModel = OnBoardingViewModel();
+  AppPreferences _appPreferences = instance<AppPreferences>();
 
   _bind() {
+    _appPreferences.setOnBoardingScreenViewed();
     _viewModel.start();
   }
 
   @override
   void initState() {
-    super.initState();
     _bind();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<SliderViewObject>(
-      stream: _viewModel.outputSliderViewObject,
-      builder: (context, snapshot) {
-        return _getContentWidget(snapshot.data);
-      },
-    );
+        stream: _viewModel.outputSliderViewObject,
+        builder: (context, snapShot) {
+          return _getContentWidget(snapShot.data);
+        });
   }
 
   Widget _getContentWidget(SliderViewObject? sliderViewObject) {
     if (sliderViewObject == null) {
       return Container();
-    } else {
+    } else
       return Scaffold(
         backgroundColor: ColorManager.white,
         appBar: AppBar(
@@ -61,7 +65,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             controller: _pageController,
             itemCount: sliderViewObject.numOfSlides,
             onPageChanged: (index) {
-              _viewModel.onPageChange(index);
+              _viewModel.onPageChanged(index);
             },
             itemBuilder: (context, index) {
               return OnBoardingPage(sliderViewObject.sliderObject);
@@ -82,7 +86,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       AppStrings.skip,
                       style: Theme.of(context).textTheme.subtitle2,
                       textAlign: TextAlign.end,
-                    ),
+                    ).tr(),
                   )),
               // add layout for indicator and arrows
               _getBottomSheetWidget(sliderViewObject)
@@ -90,7 +94,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           ),
         ),
       );
-    }
   }
 
   Widget _getBottomSheetWidget(SliderViewObject sliderViewObject) {
@@ -150,8 +153,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     );
   }
 
-  Widget _getProperCircle(int index, int currentIndex) {
-    if (index == currentIndex) {
+  Widget _getProperCircle(int index, int _currentIndex) {
+    if (index == _currentIndex) {
       return SvgPicture.asset(ImageAssets.hollowCircleIc); // selected slider
     } else {
       return SvgPicture.asset(ImageAssets.solidCircleIc); // unselected slider
@@ -160,8 +163,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   @override
   void dispose() {
-    super.dispose();
     _viewModel.dispose();
+    super.dispose();
   }
 }
 

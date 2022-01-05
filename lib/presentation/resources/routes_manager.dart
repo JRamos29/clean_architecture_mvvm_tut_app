@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/di.dart';
@@ -11,13 +12,13 @@ import '../store_details/store_details.dart';
 import 'strings_manager.dart';
 
 class Routes {
-  static const String splashRoute = '/';
-  static const String loginRoute = '/login';
-  static const String onBoardingRoute = '/onboarding';
-  static const String registerRoute = '/register';
-  static const String forgotPasswordRoute = '/forgotPassword';
-  static const String mainRoute = '/main';
-  static const String storeDetailsRoute = '/storeDetails';
+  static const String splashRoute = "/";
+  static const String onBoardingRoute = "/onBoarding";
+  static const String loginRoute = "/login";
+  static const String registerRoute = "/register";
+  static const String forgotPasswordRoute = "/forgotPassword";
+  static const String mainRoute = "/main";
+  static const String storeDetailsRoute = "/storeDetails";
 }
 
 class RouteGenerator {
@@ -43,20 +44,17 @@ class RouteGenerator {
         initStoreDetailsModule();
         return MaterialPageRoute(builder: (_) => StoreDetailsView());
       default:
-        return undefinedRoute();
+        return unDefinedRoute();
     }
   }
 
-  static Route<dynamic> undefinedRoute() {
+  static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
-      builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.noRouteFound),
-        ),
-        body: Center(
-          child: Text(AppStrings.noRouteFound),
-        ),
-      ),
-    );
+        builder: (_) => Scaffold(
+              appBar: AppBar(
+                title: Text(AppStrings.noRouteFound).tr(),
+              ),
+              body: Center(child: Text(AppStrings.noRouteFound).tr()),
+            ));
   }
 }

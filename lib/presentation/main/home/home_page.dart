@@ -1,15 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:clean_architecture_mvvm_app/app/di.dart';
-import 'package:clean_architecture_mvvm_app/domain/models/banner_model.dart';
-import 'package:clean_architecture_mvvm_app/domain/models/service_model.dart';
-import 'package:clean_architecture_mvvm_app/domain/models/store_model.dart';
-import 'package:clean_architecture_mvvm_app/presentation/common/state_renderer/state_renderer_impl.dart';
-import 'package:clean_architecture_mvvm_app/presentation/main/home/home_viewmodel.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/color_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/routes_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/strings_manager.dart';
-import 'package:clean_architecture_mvvm_app/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../app/di.dart';
+import '../../../domain/models/banner_model.dart';
+import '../../../domain/models/service_model.dart';
+import '../../../domain/models/store_model.dart';
+import '../../common/state_renderer/state_renderer_impl.dart';
+import '../../resources/color_manager.dart';
+import '../../resources/routes_manager.dart';
+import '../../resources/strings_manager.dart';
+import '../../resources/values_manager.dart';
+import 'home_viewmodel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -57,9 +59,9 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _getBanner(snapshot.data?.banners),
-              _getSection(AppStrings.services),
+              _getSection(AppStrings.services.tr()),
               _getServicesWidget(snapshot.data?.services),
-              _getSection(AppStrings.stores),
+              _getSection(AppStrings.stores.tr()),
               _getStoresWidget(snapshot.data?.stores),
             ],
           );
