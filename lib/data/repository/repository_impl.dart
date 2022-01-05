@@ -1,9 +1,10 @@
-import 'package:clean_architecture_mvvm_app/data/datasource/local_datasource.dart';
-import 'package:clean_architecture_mvvm_app/domain/models/home_model.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/models/authetication_model.dart';
+import '../../domain/models/home_model.dart';
+import '../../domain/models/store_details_model.dart';
 import '../../domain/repositories/repository.dart';
+import '../datasource/local_datasource.dart';
 import '../datasource/remote_datasource.dart';
 import '../mapper/mapper.dart';
 import '../network/error_handler.dart';
@@ -134,6 +135,33 @@ class RepositoryImpl extends Repository {
         }
       } else {
         // return connection error
+        return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, StoreDetails>> getStoreDetails() async {
+    try {
+      // get data from cache
+
+      final response = await _localDataSource.getStoreDetails();
+      return Right(response.toDomain());
+    } catch (cacheError) {
+      if (await _networkInfo.isConnected) {
+        try {
+          final response = await _remoteDataSource.getStoreDetails();
+          if (response.status == ApiInternalStatus.SUCCESS) {
+            _localDataSource.saveStoreDetailsToCache(response);
+            return Right(response.toDomain());
+          } else {
+            return Left(Failure(response.status ?? ResponseCode.DEFAULT,
+                response.message ?? ResponseMessage.DEFAULT));
+          }
+        } catch (error) {
+          return Left(ErrorHandler.handle(error).failure);
+        }
+      } else {
         return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
       }
     }

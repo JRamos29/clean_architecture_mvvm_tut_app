@@ -8,6 +8,7 @@ import 'package:clean_architecture_mvvm_app/domain/models/contacts_model.dart';
 import 'package:clean_architecture_mvvm_app/domain/models/customer_model.dart';
 import 'package:clean_architecture_mvvm_app/domain/models/home_model.dart';
 import 'package:clean_architecture_mvvm_app/domain/models/service_model.dart';
+import 'package:clean_architecture_mvvm_app/domain/models/store_details_model.dart';
 import 'package:clean_architecture_mvvm_app/domain/models/store_model.dart';
 
 const EMPTY = "";
@@ -85,5 +86,17 @@ extension HomeResponseMapper on HomeResponse? {
 
     var data = HomeData(mappedServices, mappedStores, mappedBanners);
     return HomeObject(data);
+  }
+}
+
+extension StoreDetailsResponseMapper on StoreDetailsResponse? {
+  StoreDetails toDomain() {
+    return StoreDetails(
+        this?.id?.orZero() ?? ZERO,
+        this?.title?.orEmpty() ?? EMPTY,
+        this?.image?.orEmpty() ?? EMPTY,
+        this?.details?.orEmpty() ?? EMPTY,
+        this?.services?.orEmpty() ?? EMPTY,
+        this?.about?.orEmpty() ?? EMPTY);
   }
 }
